@@ -180,7 +180,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Standing Slash Attack
-  m_Speed: 1.2
+  m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 8279324217806073317}
@@ -193,7 +193,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -203655887218126122, guid: b4b9b21905afa534cb3dedf879bff4a0,
+  m_Motion: {fileID: -203655887218126122, guid: b14ddc01a31069146a601bab72170422,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 
@@ -312,7 +312,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: PlayerCharacterController
+  m_Name: test
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: Horizontal
@@ -424,7 +424,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Standing Stinger Attack
-  m_Speed: 1.2
+  m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 3271552267393211013}
@@ -437,7 +437,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -203655887218126122, guid: 77287c805727ea142a1e77554ef7a824,
+  m_Motion: {fileID: -203655887218126122, guid: 92fee60c523e89e41be329b7dec13222,
     type: 3}
   m_Tag: 
   m_SpeedParameter: 

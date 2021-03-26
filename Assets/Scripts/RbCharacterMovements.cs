@@ -7,6 +7,7 @@ public class RbCharacterMovements : MonoBehaviour
 
     public float speedWalking;
     public float speedRunning;
+    public float speedStinger;
     
     public float jumpHeight = 1f;
 
@@ -17,6 +18,10 @@ public class RbCharacterMovements : MonoBehaviour
     private float inputHorizontal;    
 
     private Vector3 moveDirection;
+    public Transform hitBox;
+    public float SlashAttackSize;
+     
+
 
     private Rigidbody rb;
 
@@ -25,6 +30,7 @@ public class RbCharacterMovements : MonoBehaviour
     private Animator animatorPlayerCharacter;
 
     bool isMoving;
+    bool isStinger;
 
     private float speed = 0.1f;
     private float animationSpeed = 1f;
@@ -36,6 +42,8 @@ public class RbCharacterMovements : MonoBehaviour
         // Assigner le Rigidbody
         rb = GetComponent<Rigidbody>();
         animatorPlayerCharacter = GetComponent<Animator>();
+
+        // Assigner es Vector3
     }
 
     // Update is called once per frame
@@ -60,12 +68,17 @@ public class RbCharacterMovements : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftShift))
         {
             animationSpeed = Mathf.Lerp(animationSpeed, 1f, lerpSpeed);
-            speed = Mathf.Lerp(speed, speedRunning, lerpSpeed);
+            speed = Mathf.Lerp(speed, speedWalking, lerpSpeed);
+        }
+        else if (isStinger)
+        {
+            speed = Mathf.Lerp(speed, speedStinger, lerpSpeed);
+            playerAttack playerAttack = new playerAttack(60f, hitBox.position, SlashAttackSize);
         }
         else
         {
             animationSpeed = Mathf.Lerp(animationSpeed, 2f, lerpSpeed);
-            speed = Mathf.Lerp(speed, speedWalking, lerpSpeed);
+            speed = Mathf.Lerp(speed, speedRunning, lerpSpeed);
         }
 
         animatorPlayerCharacter.SetFloat("Horizontal", inputHorizontal * animationSpeed);
@@ -73,7 +86,14 @@ public class RbCharacterMovements : MonoBehaviour
         //----------------------------------------------
 
         // Vecteur de mouvements (Avant/arrière + Gauche/Droite)
-        moveDirection = transform.forward * inputVertical + transform.right * inputHorizontal;  
+        if (isStinger)
+        {
+            moveDirection = transform.forward * 1;
+        }
+        else
+        {
+            moveDirection = transform.forward * inputVertical + transform.right * inputHorizontal;
+        } 
         
         // Sauter
         if (Input.GetButtonDown("Jump") && isGrounded == true)
@@ -95,5 +115,24 @@ public class RbCharacterMovements : MonoBehaviour
     {
         // Déplacer le personnage selon le vecteur de direction
         rb.MovePosition(rb.position + moveDirection.normalized * speed * Time.fixedDeltaTime);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawCube(hitBox.position, Vector3.one * SlashAttackSize);//new Vector3(SlashAttackSize, SlashAttackSize, SlashAttackSize));
+    }
+
+    public void stingerToggle(float stinger)
+    {
+        if (stinger == 0)
+            isStinger = true;
+        else
+            isStinger = false;
+    }
+
+    public void slashAttack()
+    {
+        playerAttack playerAttack = new playerAttack(60f, hitBox.position, SlashAttackSize);
     }
 }
