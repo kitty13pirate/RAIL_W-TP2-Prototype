@@ -389,7 +389,6 @@ Transform:
   - {fileID: 7581739204730569100}
   - {fileID: 8087986913504802838}
   - {fileID: 6013396572908219229}
-  - {fileID: 1776964597946607853}
   - {fileID: 1776964598176626628}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -457,10 +456,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speedWalking: 1
   speedRunning: 2
-  jumpHeight: 1
-  feetPosition: {fileID: 1776964597946607853}
-  slashHitBox: {x: 0, y: 0, z: 0}
-  hitBoxCenter: {x: 0, y: 0, z: 0}
+  speedStinger: 0
+  feetPosition: {fileID: 0}
+  hitBox: {fileID: 0}
+  SlashAttackSize: 0
 --- !u!1 &1641391755615389015
 GameObject:
   m_ObjectHideFlags: 0
@@ -554,36 +553,6 @@ Transform:
   - {fileID: 5470942454091625255}
   m_Father: {fileID: 2143116951883463757}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1776964597946607852
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1776964597946607853}
-  m_Layer: 8
-  m_Name: feet
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1776964597946607853
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1776964597946607852}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 2243833431680125897}
-  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1776964598110893717
 GameObject:
@@ -698,7 +667,7 @@ Transform:
   m_Children:
   - {fileID: 1776964598110893712}
   m_Father: {fileID: 2243833431680125897}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1776964598176626629
 MonoBehaviour:

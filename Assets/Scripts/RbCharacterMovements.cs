@@ -4,28 +4,24 @@ using UnityEngine;
 
 public class RbCharacterMovements : MonoBehaviour
 {
-
+    //Les vitesses pour la marche, le running et l'attaque stinger respectivement
     public float speedWalking;
     public float speedRunning;
     public float speedStinger;
-    
-    public float jumpHeight = 1f;
-
-    // Transform de la position des pieds
-    public Transform feetPosition;
+    public float teleportDistance;
 
     private float inputVertical;
     private float inputHorizontal;    
 
     private Vector3 moveDirection;
     public Transform hitBox;
+
+    public float StingerAttackSize;
     public float SlashAttackSize;
      
 
 
     private Rigidbody rb;
-
-    private bool isGrounded = true;
 
     private Animator animatorPlayerCharacter;
 
@@ -49,8 +45,6 @@ public class RbCharacterMovements : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Vérifier si l'on touche le sol
-        isGrounded = Physics.CheckSphere(feetPosition.position, 0.15f, 1, QueryTriggerInteraction.Ignore);
 
         // Vérifier les inputs du joueur
         // Vertical (W, S et Joystick avant/arrière)
@@ -65,16 +59,21 @@ public class RbCharacterMovements : MonoBehaviour
         animatorPlayerCharacter.SetBool("isMoving", isMoving);
 
         // Animation -----------------------------------
+        //Par defaut, le personnage cour, shift permet alors de marcher
         if (Input.GetKey(KeyCode.LeftShift))
         {
             animationSpeed = Mathf.Lerp(animationSpeed, 1f, lerpSpeed);
             speed = Mathf.Lerp(speed, speedWalking, lerpSpeed);
         }
+
+        //Lors de l'attaque stinger, le personnage se deplace plus rapidement et attaque continuellement
         else if (isStinger)
         {
             speed = Mathf.Lerp(speed, speedStinger, lerpSpeed);
-            playerAttack playerAttack = new playerAttack(60f, hitBox.position, SlashAttackSize);
+            playerAttack playerAttack = new playerAttack(1f, hitBox.position, StingerAttackSize);
         }
+        
+        //Vitesse habituelle
         else
         {
             animationSpeed = Mathf.Lerp(animationSpeed, 2f, lerpSpeed);
@@ -86,6 +85,7 @@ public class RbCharacterMovements : MonoBehaviour
         //----------------------------------------------
 
         // Vecteur de mouvements (Avant/arrière + Gauche/Droite)
+        // Empeche le personnage d'aller dans d'autres directions que par l'avant durant le stinger
         if (isStinger)
         {
             moveDirection = transform.forward * 1;
@@ -95,11 +95,10 @@ public class RbCharacterMovements : MonoBehaviour
             moveDirection = transform.forward * inputVertical + transform.right * inputHorizontal;
         } 
         
-        // Sauter
-        if (Input.GetButtonDown("Jump") && isGrounded == true)
+        // L'attaque de base et le stinger respectivement
+        if (Input.GetButtonDown("Jump"))
         {
-            animatorPlayerCharacter.SetTrigger("Jump");
-            rb.AddForce(Vector3.up * Mathf.Sqrt(jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
+            teleport();
         }
         if (Input.GetMouseButtonDown(0))
         {
@@ -133,6 +132,20 @@ public class RbCharacterMovements : MonoBehaviour
 
     public void slashAttack()
     {
-        playerAttack playerAttack = new playerAttack(60f, hitBox.position, SlashAttackSize);
+        playerAttack playerAttack = new playerAttack(20f, hitBox.position, SlashAttackSize);
+    }
+
+    public void teleport()
+    {
+        RaycastHit hit;
+        Vector3 teleportTarget = rb.position + moveDirection.normalized * teleportDistance;
+        if (Physics.Raycast(rb.position, moveDirection.normalized, out hit, teleportDistance))
+        {
+            teleportTarget = hit.point;
+            teleportTarget = Vector3.Lerp(rb.position, teleportTarget, .8f);
+        }
+
+        rb.position = teleportTarget;
+        
     }
 }
