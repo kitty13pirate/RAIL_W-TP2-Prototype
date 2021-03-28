@@ -4,22 +4,27 @@ using UnityEngine;
 
 public class RbCharacterMovements : MonoBehaviour
 {
+    private Transform transform;
     //Les vitesses pour la marche, le running et l'attaque stinger respectivement
     public float speedWalking;
     public float speedRunning;
     public float speedStinger;
     public float teleportDistance;
 
+    //Pour verifier les inputs
     private float inputVertical;
     private float inputHorizontal;    
 
+    //La direction du mouvement
     private Vector3 moveDirection;
+
+    //Le centre de la hitbox des attaques
     public Transform hitBox;
 
+    //La taille des attaques
     public float StingerAttackSize;
     public float SlashAttackSize;
      
-
 
     private Rigidbody rb;
 
@@ -35,11 +40,11 @@ public class RbCharacterMovements : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
+        transform = gameObject.transform;
         // Assigner le Rigidbody
         rb = GetComponent<Rigidbody>();
         animatorPlayerCharacter = GetComponent<Animator>();
 
-        // Assigner es Vector3
     }
 
     // Update is called once per frame

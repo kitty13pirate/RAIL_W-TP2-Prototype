@@ -15,14 +15,14 @@ public class playerAttack : MonoBehaviour
         {
             // Regarder pour le Ragdoll
             Ragdoll ragdoll = item.GetComponentInParent<Ragdoll>();
-            if (ragdoll != null)
+            if (ragdoll != null && ragdoll.tag != "Player")
             {
                 ragdoll.Die();
             }
 
             Rigidbody rb = item.GetComponent<Rigidbody>();
 
-            if (rb != null)
+            if (rb != null && rb.tag != "Player")
             {
                 //Appliquer un velocite aux objets
                 rb.AddExplosionForce(force, center, 1f, 2f, ForceMode.Impulse);
