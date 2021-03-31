@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Ragdoll : MonoBehaviour
 {
+    Rigidbody rb;
     Rigidbody[] ragdollRBs;
     Animator animator;
     bool isDead;
@@ -14,13 +15,13 @@ public class Ragdoll : MonoBehaviour
     void Awake()
     {
         //Lister tous les Rbs
+        rb = GetComponent<Rigidbody>();
         ragdollRBs = GetComponentsInChildren<Rigidbody>();
 
         animator = GetComponent<Animator>();
 
         //Desactiver le Ragdoll
         toggleRagdoll(false);
-        
     }
 
     // Update is called once per frame

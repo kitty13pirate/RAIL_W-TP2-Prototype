@@ -15,6 +15,7 @@ public class enemySwat : MonoBehaviour
     public Transform lookTarget;
     public GameObject bulletPrefab;
     public Transform barrel;
+    public ParticleSystem psMuzzleFlash;
 
     private void Awake()
     {
@@ -32,7 +33,7 @@ public class enemySwat : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         transform.LookAt(lookTarget);
 
@@ -71,7 +72,7 @@ public class enemySwat : MonoBehaviour
         }
 
         // Rendu a destination, je prend une pause avant de tirer
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
         enemyAnimator.SetTrigger("Fire");
 
         // Je demarre une nouvelle patrouille
@@ -96,6 +97,7 @@ public class enemySwat : MonoBehaviour
 
     public void fireRifle()
     {
+        psMuzzleFlash.Emit(1);
         barrel.transform.LookAt(lookTarget);
         GameObject firedBullet = Instantiate(bulletPrefab, barrel.position, Quaternion.identity);
     }

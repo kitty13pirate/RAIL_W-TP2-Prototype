@@ -50,7 +50,6 @@ public class RbCharacterMovements : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         // Vérifier les inputs du joueur
         // Vertical (W, S et Joystick avant/arrière)
         inputVertical = Input.GetAxis("Vertical");
@@ -124,7 +123,7 @@ public class RbCharacterMovements : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawCube(hitBox.position, Vector3.one * SlashAttackSize);//new Vector3(SlashAttackSize, SlashAttackSize, SlashAttackSize));
+        Gizmos.DrawCube(hitBox.position, Vector3.one * SlashAttackSize);
     }
 
     public void stingerToggle(float stinger)
