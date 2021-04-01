@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class RbCharacterMovements : MonoBehaviour
 {
-    private Transform transform;
+    public GameObject body;
+
     //Les vitesses pour la marche, le running et l'attaque stinger respectivement
     public float speedWalking;
     public float speedRunning;
@@ -24,15 +25,35 @@ public class RbCharacterMovements : MonoBehaviour
     //La taille des attaques
     public float StingerAttackSize;
     public float SlashAttackSize;
-     
 
+    //Tous les Particle Systems
+    public ParticleSystem psSmoke;
+    public ParticleSystem psExplosion;
+    public ParticleSystem psShieldRecharge;
+    public ParticleSystem psShieldBroken;
+    public ParticleSystem psFlameAttack;
+
+    //Tout l'audio
+    public AudioSource audioSource;
+    public AudioClip clipFlameAttack;
+    public AudioClip clipShieldRecharge;
+    public AudioClip clipShieldBroken;
+    public AudioClip clipExplosion;
+    public AudioClip clipSmoke;
+
+    //Le rigidbody
     private Rigidbody rb;
 
+    //L'animator
     private Animator animatorPlayerCharacter;
 
-    bool isMoving;
-    bool isStinger;
+    // les booleens pour le stinger et les habilites
+    private bool isStinger;
+    private bool shieldCooldown = false;
+    private bool stingerCooldown = false;
+    private bool teleportCooldown = false;
 
+    // les vitesses pour les animations
     private float speed = 0.1f;
     private float animationSpeed = 1f;
     private float lerpSpeed = 0.08f;
@@ -40,7 +61,6 @@ public class RbCharacterMovements : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        transform = gameObject.transform;
         // Assigner le Rigidbody
         rb = GetComponent<Rigidbody>();
         animatorPlayerCharacter = GetComponent<Animator>();
@@ -55,12 +75,6 @@ public class RbCharacterMovements : MonoBehaviour
         inputVertical = Input.GetAxis("Vertical");
         // Horizontal (A, D et Joystick gauche/droite)
         inputHorizontal = Input.GetAxis("Horizontal");
-
-        //Verifier les deadzones
-
-        isMoving = Mathf.Abs(inputHorizontal) + Mathf.Abs(inputVertical) > 0f;
-
-        animatorPlayerCharacter.SetBool("isMoving", isMoving);
 
         // Animation -----------------------------------
         //Par defaut, le personnage cour, shift permet alors de marcher
@@ -100,7 +114,7 @@ public class RbCharacterMovements : MonoBehaviour
         } 
         
         // L'attaque de base et le stinger respectivement
-        if (Input.GetButtonDown("Jump"))
+        if (Input.GetButtonDown("Jump") && !teleportCooldown)
         {
             teleport();
         }
@@ -108,7 +122,7 @@ public class RbCharacterMovements : MonoBehaviour
         {
             animatorPlayerCharacter.SetTrigger("SlashAttack");
         }
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1) && !stingerCooldown)
         {
             animatorPlayerCharacter.SetTrigger("StingerAttack");
         }
@@ -129,9 +143,16 @@ public class RbCharacterMovements : MonoBehaviour
     public void stingerToggle(float stinger)
     {
         if (stinger == 0)
+        {
             isStinger = true;
+            stingerCooldown = true;
+        }
         else
+        {
             isStinger = false;
+            StartCoroutine(stingerRecharge());
+        }
+            
     }
 
     public void slashAttack()
@@ -149,7 +170,63 @@ public class RbCharacterMovements : MonoBehaviour
             teleportTarget = Vector3.Lerp(rb.position, teleportTarget, .8f);
         }
 
+        audioSource.PlayOneShot(clipSmoke);
+        psSmoke.Emit(30);
         rb.position = teleportTarget;
+        teleportCooldown = true;
+        StartCoroutine(teleportRecharge());
+    }
+
+    public void flameToggle()
+    {
+        if (!psFlameAttack.isPlaying)
+        {
+            audioSource.PlayOneShot(clipFlameAttack);
+            psFlameAttack.Play();
+        }
+        else
+            psFlameAttack.Stop();
+    }
+
+    public void Die()
+    {
+        // Si le bouclier magique est fonctionnel
+        if (!shieldCooldown)
+        {
+            audioSource.PlayOneShot(clipShieldBroken);
+            psShieldBroken.Emit(1);
+            shieldCooldown = true;
+            StartCoroutine(shieldRecharge());
+        }
+        // Sinon
+        else
+        {
+            //Le personnage explose, meurt et le jeu s'arrete
+            audioSource.PlayOneShot(clipExplosion);
+            psExplosion.Emit(50);
+            body.SetActive(false);
+            GameManager.singleton.GameOver();
+        }
         
+    }
+
+    private IEnumerator shieldRecharge()
+    {
+        yield return new WaitForSeconds(5f);
+        psShieldRecharge.Emit(1);
+        audioSource.PlayOneShot(clipShieldRecharge);
+        shieldCooldown = false;
+    }
+
+    private IEnumerator stingerRecharge()
+    {
+        yield return new WaitForSeconds(3f);
+        stingerCooldown = false;
+    }
+
+    private IEnumerator teleportRecharge()
+    {
+        yield return new WaitForSeconds(2f);
+        teleportCooldown = false;
     }
 }

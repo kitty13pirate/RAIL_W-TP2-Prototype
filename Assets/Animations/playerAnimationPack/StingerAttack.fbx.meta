@@ -73,6 +73,27 @@ ModelImporter:
         floatParameter: 1
         intParameter: 0
         messageOptions: 0
+      - time: 0.25440052
+        functionName: flameToggle
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 1
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.6365083
+        functionName: flameToggle
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 1
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.6598829
+        functionName: flameToggle
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 1
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}

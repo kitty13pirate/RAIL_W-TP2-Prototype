@@ -16,8 +16,8 @@ GameObject:
   m_Name: Armature (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &2626569131811515983
 Transform:
@@ -109,8 +109,8 @@ GameObject:
   m_Name: Armature
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &2626569131909903459
 Transform:
@@ -200,6 +200,7 @@ GameObject:
   - component: {fileID: 2626569132495424038}
   - component: {fileID: 2626569132495424033}
   - component: {fileID: 3372173002999648048}
+  - component: {fileID: 2944351063760433103}
   m_Layer: 0
   m_Name: Porte
   m_TagString: Untagged
@@ -332,6 +333,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.99999994, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!208 &2944351063760433103
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2626569132495424035}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &2626569133331138892
 GameObject:
   m_ObjectHideFlags: 0
@@ -348,8 +365,8 @@ GameObject:
   m_Name: Armature (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &2626569133331138893
 Transform:

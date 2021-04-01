@@ -29,30 +29,15 @@ public class bullet : MonoBehaviour
         // Regarder pour le Ragdoll
         try
         {
-            Ragdoll ragdoll = other.rigidbody.GetComponentInParent<Ragdoll>();
-            if (ragdoll != null)
+            RbCharacterMovements rbCharacterMovements = other.rigidbody.GetComponentInParent<RbCharacterMovements>();
+            if (rbCharacterMovements != null)
             {
-                ragdoll.Die();
+                rbCharacterMovements.Die();
             }
         }
         catch
         {
-
-        }
-
-        try
-        {
-            Rigidbody rb = other.rigidbody.GetComponent<Rigidbody>();
-
-            if (rb != null)
-            {
-                //Appliquer un velocite aux objets
-                rb.AddExplosionForce(10f, rb.position, 1f, 2f, ForceMode.Impulse);
-            }
-        }
-        catch
-        {
-
+            //Rien ne se passe.
         }
         
 

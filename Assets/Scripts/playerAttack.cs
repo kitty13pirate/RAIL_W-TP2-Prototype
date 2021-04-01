@@ -15,9 +15,11 @@ public class playerAttack : MonoBehaviour
         {
             // Regarder pour le Ragdoll
             Ragdoll ragdoll = item.GetComponentInParent<Ragdoll>();
+            enemySwat enemy = item.GetComponentInParent<enemySwat>();
             if (ragdoll != null && ragdoll.tag != "Player")
             {
                 ragdoll.Die();
+                enemy.StartCoroutine(enemy.Die());
             }
 
             Rigidbody rb = item.GetComponent<Rigidbody>();
