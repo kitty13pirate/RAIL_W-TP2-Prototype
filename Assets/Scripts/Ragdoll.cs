@@ -34,6 +34,7 @@ public class Ragdoll : MonoBehaviour
         }   
     }
 
+    //La ragdoll est activee
     public void Die()
     {
         if (isDead)

@@ -19,6 +19,7 @@ public class enemySwat : MonoBehaviour
     public ParticleSystem psMuzzleFlash;
     public AudioSource audio;
     public AudioClip clip;
+    public AudioClip deathClip;
 
     private void Awake()
     {
@@ -38,6 +39,7 @@ public class enemySwat : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        // Pour qu'il regarde toujours le joueur
         if (!isDead)
         {
             transform.LookAt(lookTarget);
@@ -49,7 +51,7 @@ public class enemySwat : MonoBehaviour
             StartCoroutine(reposition(destination, speedWalking));
         }
             
-
+        //Les variables pour son animation
         enemyAnimator.SetFloat("Horizontal", NavMeshAgent.velocity.x);
         enemyAnimator.SetFloat("Vertical", NavMeshAgent.velocity.z);
     }
@@ -73,26 +75,27 @@ public class enemySwat : MonoBehaviour
             //modifier la vitesse du pnj
             NavMeshAgent.speed = speed;
 
-            // Me deplacer vers la destination
+            // Se deplacer vers la destination
             NavMeshAgent.SetDestination(destination);
 
-            // Tant que je ne suis pas rendu a la destination je ne fais rien d'autre
+            // Tant que l'enemie n'est pas rendu a la destination il ne fais rien d'autre
             while (NavMeshAgent.pathPending && !isDead | NavMeshAgent.remainingDistance > 0.5f && !isDead)
             {
                 yield return null;
             }
 
-            // Rendu a destination, je prend une pause avant de tirer
+            // Rendu a destination, il prend une pause avant de tirer
             yield return new WaitForSeconds(Random.Range(2f, 3.5f));
             if (Alerted)
             {
                 enemyAnimator.SetTrigger("Fire");
             }
-            // Je demarre une nouvelle patrouille
+            // Il se repositionne pour un nouveau tir
             isAgentBusy = false;
         }
     }
 
+    //Il tente de detecter le joueur
     void tryDetectPlayer()
     {
         //Creer un rayon 
@@ -106,6 +109,7 @@ public class enemySwat : MonoBehaviour
             {
                 Alerted = true;
             }
+            //Sinon, il tente de retrouver le joueur
             else
             {
                 Alerted = false;
@@ -114,6 +118,7 @@ public class enemySwat : MonoBehaviour
         }
     }
 
+    //La fonction pour tirer, instancie une balle en direction du joueur
     public void fireRifle()
     {
         audio.PlayOneShot(clip);
@@ -129,11 +134,18 @@ public class enemySwat : MonoBehaviour
 
     }
 
+    //L'enemie meurt
     public IEnumerator Die()
     {
-        isDead = true;
-        NavMeshAgent.enabled = false;
-        yield return new WaitForSeconds(10f);
-        Destroy(gameObject);
+        if (!isDead)
+        {
+            //Il crie avant d'etre detruit
+            audio.PlayOneShot(deathClip);
+            isDead = true;
+            NavMeshAgent.enabled = false;
+            yield return new WaitForSeconds(10f);
+            Destroy(gameObject);
+        }
+            
     }
 }

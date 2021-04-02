@@ -6752,6 +6752,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c5630aafb37284b973aa4fff79deb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDead: 0
   lookTarget: {fileID: 0}
   bulletPrefab: {fileID: 7305428639604609738, guid: 6418d14cbee6a3a4ca587c6276c3d1a7,
     type: 3}
@@ -6759,6 +6760,7 @@ MonoBehaviour:
   psMuzzleFlash: {fileID: 4828529529549876233}
   audio: {fileID: 6716343172678509981}
   clip: {fileID: 8300000, guid: d3099cdc97e9a8c43806bcfb6ea625d1, type: 3}
+  deathClip: {fileID: 8300000, guid: 20b4316a8c7d3754ab2e2a84540fc33d, type: 3}
 --- !u!1 &5879189011600610512
 GameObject:
   m_ObjectHideFlags: 0
@@ -7620,7 +7622,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 40
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0

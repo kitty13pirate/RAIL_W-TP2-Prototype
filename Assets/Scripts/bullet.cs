@@ -12,6 +12,7 @@ public class bullet : MonoBehaviour
         lookTarget = FindObjectOfType<RbCharacterMovements>().transform;
     }
 
+    //La trajectoire est l'emplacement initial du joueur lorsque la balle est instanciee
     private void Start()
     {
         transform.LookAt(lookTarget);
@@ -24,9 +25,10 @@ public class bullet : MonoBehaviour
         rb.transform.position += rb.transform.forward * Time.deltaTime * 10f;
     }
 
+    //Appelle lorsque la balle touche quelque chose
     private void OnCollisionEnter(Collision other)
     {
-        // Regarder pour le Ragdoll
+        // Regarder si le script du joueur existe
         try
         {
             RbCharacterMovements rbCharacterMovements = other.rigidbody.GetComponentInParent<RbCharacterMovements>();
@@ -37,10 +39,10 @@ public class bullet : MonoBehaviour
         }
         catch
         {
-            //Rien ne se passe.
+            //Rien ne se passe. Le catch est seulement ici pour eviter les erreurs
         }
         
-
+        //La balle est detruite lors d'une collision
         Destroy(gameObject);
     }
 }

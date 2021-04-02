@@ -98,6 +98,7 @@ public class RbCharacterMovements : MonoBehaviour
             speed = Mathf.Lerp(speed, speedRunning, lerpSpeed);
         }
 
+        //Les variables pour les animations
         animatorPlayerCharacter.SetFloat("Horizontal", inputHorizontal * animationSpeed);
         animatorPlayerCharacter.SetFloat("Vertical", inputVertical * animationSpeed);
         //----------------------------------------------
@@ -108,12 +109,13 @@ public class RbCharacterMovements : MonoBehaviour
         {
             moveDirection = transform.forward * 1;
         }
+        //Sinon le deplacement est normal
         else
         {
             moveDirection = transform.forward * inputVertical + transform.right * inputHorizontal;
         } 
         
-        // L'attaque de base et le stinger respectivement
+        // les touches pour la teleportation, l'attaque de base et le stinger respectivement
         if (Input.GetButtonDown("Jump") && !teleportCooldown)
         {
             teleport();
@@ -134,12 +136,14 @@ public class RbCharacterMovements : MonoBehaviour
         rb.MovePosition(rb.position + moveDirection.normalized * speed * Time.fixedDeltaTime);
     }
 
+    //Pour le debugage/voir plus clairement les hitboxes
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawCube(hitBox.position, Vector3.one * SlashAttackSize);
     }
 
+    //Indique si le personnage est en attaque stinger
     public void stingerToggle(float stinger)
     {
         if (stinger == 0)
@@ -155,11 +159,13 @@ public class RbCharacterMovements : MonoBehaviour
             
     }
 
+    //L'attaque de base
     public void slashAttack()
     {
         playerAttack playerAttack = new playerAttack(20f, hitBox.position, SlashAttackSize);
     }
 
+    //Un teleport, utilise un Raycast pour eviter de passer a travers les murs.
     public void teleport()
     {
         RaycastHit hit;
@@ -177,6 +183,7 @@ public class RbCharacterMovements : MonoBehaviour
         StartCoroutine(teleportRecharge());
     }
 
+    //Pour activer et desactiver les particules de flameAttack
     public void flameToggle()
     {
         if (!psFlameAttack.isPlaying)
@@ -188,9 +195,10 @@ public class RbCharacterMovements : MonoBehaviour
             psFlameAttack.Stop();
     }
 
+    //La fonction qui gere lorsque le personnage est touche par une attaque
     public void Die()
     {
-        // Si le bouclier magique est fonctionnel
+        // Si le bouclier magique est fonctionnel, le personnage est sauve
         if (!shieldCooldown)
         {
             audioSource.PlayOneShot(clipShieldBroken);
@@ -210,6 +218,7 @@ public class RbCharacterMovements : MonoBehaviour
         
     }
 
+    //Le cooldown pour le bouclier
     private IEnumerator shieldRecharge()
     {
         yield return new WaitForSeconds(5f);
@@ -218,12 +227,14 @@ public class RbCharacterMovements : MonoBehaviour
         shieldCooldown = false;
     }
 
+    //Le cooldown pour le stinger
     private IEnumerator stingerRecharge()
     {
         yield return new WaitForSeconds(3f);
         stingerCooldown = false;
     }
 
+    //Le cooldown pour la teleportation
     private IEnumerator teleportRecharge()
     {
         yield return new WaitForSeconds(2f);

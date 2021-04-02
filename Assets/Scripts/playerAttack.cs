@@ -13,7 +13,7 @@ public class playerAttack : MonoBehaviour
         //Regarde pour trouver les objets physiques
         foreach (Collider item in colliders)
         {
-            // Regarder pour le Ragdoll
+            // Regarder pour le Ragdoll de l'enemie
             Ragdoll ragdoll = item.GetComponentInParent<Ragdoll>();
             enemySwat enemy = item.GetComponentInParent<enemySwat>();
             if (ragdoll != null && ragdoll.tag != "Player")
@@ -24,6 +24,7 @@ public class playerAttack : MonoBehaviour
 
             Rigidbody rb = item.GetComponent<Rigidbody>();
 
+            //Pour empecher que le joueur se propulse lui meme
             if (rb != null && rb.tag != "Player")
             {
                 //Appliquer un velocite aux objets

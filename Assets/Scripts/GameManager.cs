@@ -28,8 +28,7 @@ public class GameManager : MonoBehaviour
         // Empecher les mouvements du joueur
         playerMovements.enabled = false;
 
-        // Empecher les mouvements du NPC
-
+        // Empecher les mouvements des NPC
         enemySwat[] swats = FindObjectsOfType<enemySwat>();
 
         foreach (enemySwat enemy in swats)
